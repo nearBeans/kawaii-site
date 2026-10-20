@@ -1,0 +1,293 @@
+/*
+ * 骨格。1画面完結＋下部タブ（SPEC §2）。
+ * 動かすのは transform と opacity だけ（AGENTS.md 作業ルール）。
+ */
+
+.app {
+  position: relative;
+  display: grid;
+  grid-template-rows: minmax(0, 1fr) auto;
+  height: 100dvh;
+  overflow: hidden;
+}
+
+.skip-link {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  z-index: 20;
+  padding: 8px 16px;
+  border-radius: 999px;
+  background: var(--color-ink);
+  color: var(--color-base);
+  font-size: 0.8rem;
+  text-decoration: none;
+  transform: translateY(-160%);
+}
+
+.skip-link:focus {
+  transform: translateY(0);
+}
+
+/* 背景 */
+.bg {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.bg__blob {
+  position: absolute;
+  border-radius: 50%;
+  opacity: 0.4;
+  animation: blob-drift 10s ease-in-out infinite;
+}
+
+.bg__blob--1 {
+  width: 200px;
+  height: 200px;
+  top: 8%;
+  left: -70px;
+  background: var(--color-main);
+}
+
+.bg__blob--2 {
+  width: 120px;
+  height: 120px;
+  top: 22%;
+  right: -30px;
+  background: var(--color-sub);
+  animation-delay: -2.5s;
+}
+
+.bg__blob--3 {
+  width: 64px;
+  height: 64px;
+  top: 62%;
+  left: 8%;
+  background: var(--color-accent);
+  opacity: 0.22;
+  animation-delay: -5s;
+}
+
+.bg__blob--4 {
+  width: 96px;
+  height: 96px;
+  bottom: 14%;
+  right: 6%;
+  background: var(--color-sub);
+  opacity: 0.3;
+  animation-delay: -7s;
+}
+
+.bg__blob--5 {
+  width: 40px;
+  height: 40px;
+  top: 44%;
+  right: 18%;
+  background: var(--color-main);
+  opacity: 0.5;
+  animation-delay: -3.5s;
+}
+
+@keyframes blob-drift {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+  50% {
+    transform: translate3d(0, -16px, 0);
+  }
+}
+
+/* ページ */
+.app__main {
+  display: flex;
+  justify-content: center;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.page {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 100%;
+  max-width: var(--shell-width);
+  min-height: 0;
+  padding: clamp(18px, 5vh, 34px) 20px 10px;
+}
+
+.page__head {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.page__headText {
+  display: flex;
+  flex: 1;
+  min-width: 0;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.page__eyebrow {
+  font-family: var(--font-accent);
+  font-size: 0.68rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-ink-weak);
+}
+
+.page__title {
+  font-family: var(--font-heading);
+  font-size: clamp(1.55rem, 5.4vw, 1.95rem);
+  font-weight: 700;
+  line-height: 1.25;
+  letter-spacing: 0.02em;
+}
+
+.page__lead {
+  font-size: 0.85rem;
+  line-height: 1.6;
+  color: var(--color-ink-weak);
+}
+
+.page__chibi {
+  flex: none;
+  width: clamp(84px, 24vw, 116px);
+  height: auto;
+}
+
+.page__body {
+  display: flex;
+  flex: 1;
+  min-height: 0;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.page__signature {
+  margin-top: auto;
+  font-family: var(--font-accent);
+  font-size: 0.7rem;
+  letter-spacing: 0.12em;
+  color: var(--color-ink-weak);
+}
+
+/* 下部タブ */
+.tabbar {
+  padding: 6px 10px calc(6px + env(safe-area-inset-bottom));
+  border-top: 2px solid rgba(74, 59, 59, 0.08);
+  background: var(--color-base);
+}
+
+.tabbar__list {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 4px;
+  max-width: var(--shell-width);
+  margin-inline: auto;
+}
+
+.tab {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 7px 2px 6px;
+  border-radius: 16px;
+  color: var(--color-ink-weak);
+  font-family: var(--font-heading);
+  font-size: 0.72rem;
+  text-decoration: none;
+}
+
+.tab__dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: currentColor;
+  opacity: 0.35;
+}
+
+.tab.is-active {
+  background: var(--color-main);
+  color: var(--color-ink);
+  box-shadow: inset 0 0 0 2px var(--color-ink);
+}
+
+.tab.is-active .tab__dot {
+  background: var(--color-accent);
+  opacity: 1;
+}
+
+/* 背の低い画面では詰める */
+@media (max-height: 660px) {
+  .page {
+    gap: 10px;
+    padding-top: 12px;
+  }
+
+  .page__lead {
+    display: none;
+  }
+
+  .page__chibi {
+    width: clamp(64px, 18vw, 84px);
+  }
+}
+
+/* 横向きなど、高さが足りないときは横に並べて1画面に保つ */
+@media (max-height: 480px) {
+  .page {
+    gap: 8px;
+    padding-top: 8px;
+    padding-bottom: 8px;
+  }
+
+  .page__eyebrow {
+    display: none;
+  }
+
+  .page__chibi {
+    width: 56px;
+  }
+}
+
+/* 狭い画面では背景を控えめにする */
+@media (max-width: 600px) {
+  .bg__blob--1 {
+    width: 140px;
+    height: 140px;
+    left: -60px;
+    opacity: 0.28;
+  }
+
+  .bg__blob--2 {
+    width: 84px;
+    height: 84px;
+    right: -26px;
+    opacity: 0.34;
+  }
+
+  .bg__blob--3 {
+    width: 44px;
+    height: 44px;
+    opacity: 0.18;
+  }
+
+  .bg__blob--4 {
+    width: 68px;
+    height: 68px;
+    opacity: 0.24;
+  }
+
+  .bg__blob--5 {
+    width: 26px;
+    height: 26px;
+    right: 12%;
+  }
+}

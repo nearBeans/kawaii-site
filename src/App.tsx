@@ -1,30 +1,33 @@
-import './app.css'
-
-const SWATCHES = [
-  { name: 'base', value: 'var(--color-base)' },
-  { name: 'main', value: 'var(--color-main)' },
-  { name: 'sub', value: 'var(--color-sub)' },
-  { name: 'accent', value: 'var(--color-accent)' },
-] as const
+import { Navigate, Route, Routes } from 'react-router'
+import { Background } from './components/Background'
+import { TabBar } from './components/TabBar'
+import { usePageFocus } from './hooks/usePageFocus'
+import { About } from './pages/About'
+import { Connect } from './pages/Connect'
+import { Home } from './pages/Home'
+import { Likes } from './pages/Likes'
+import { Works } from './pages/Works'
 
 export default function App() {
+  usePageFocus()
+
   return (
-    <main className="shell">
-      <p className="shell__eyebrow">kawaii-site</p>
-      <h1 className="shell__title" tabIndex={-1}>
-        足場だけできています
-      </h1>
-      <p className="shell__note">
-        5画面とワイプ遷移、ちびキャラはこれから。色はトークンで確認できます。
-      </p>
-      <ul className="swatches">
-        {SWATCHES.map((swatch) => (
-          <li key={swatch.name} className="swatch">
-            <span className="swatch__chip" style={{ background: swatch.value }} />
-            <span className="swatch__name">{swatch.name}</span>
-          </li>
-        ))}
-      </ul>
-    </main>
+    <div className="app">
+      <a className="skip-link" href="#main">
+        本文へ
+      </a>
+      <Background />
+      <main className="app__main" id="main">
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/works" element={<Works />} />
+          <Route path="/likes" element={<Likes />} />
+          <Route path="/connect" element={<Connect />} />
+          <Route path="*" element={<Navigate to="/" replace />} />
+        </Routes>
+      </main>
+      <TabBar />
+    </div>
   )
 }
