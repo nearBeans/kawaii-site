@@ -4,13 +4,13 @@ import { TABS } from '../content/site'
 export const TRANSITION = {
   angle: 8,
   stagger: 40,
-  cover: 260, // 帯1本の長さ
-  coverTotal: 340, // cover + stagger * 2
-  hold: 320,
-  holdFast: 140, // 早送り時
-  reveal: 220, // 帯1本の長さ
-  revealTotal: 300, // reveal + stagger * 2
-  total: 960,
+  cover: 300, // 帯1本の長さ
+  coverTotal: 380, // cover + stagger * 2
+  hold: 400,
+  holdFast: 160, // 早送り時
+  reveal: 250, // 帯1本の長さ
+  revealTotal: 330, // reveal + stagger * 2
+  total: 1110,
 } as const
 
 export type Phase = 'idle' | 'cover' | 'hold' | 'reveal'

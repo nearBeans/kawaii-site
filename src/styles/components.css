@@ -272,7 +272,7 @@
 .chibi--blink .chibi__eyeDot {
   transform-box: fill-box;
   transform-origin: 50% 50%;
-  animation: chibi-blink 0.4s ease-in-out;
+  animation: chibi-blink 0.44s ease-in-out;
 }
 
 @keyframes chibi-blink {
