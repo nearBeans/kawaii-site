@@ -86,3 +86,99 @@
     transition: none !important;
   }
 }
+
+/*
+ * 遷移の中央に出るちびキャラと看板（MOTION §5）。
+ * 帯（z-index 50）より手前に置く。タップは下の帯へ通す。
+ */
+.morph {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  display: grid;
+  place-items: center;
+  pointer-events: none;
+}
+
+.morph__stage {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: -2vh;
+}
+
+.morph__chibi {
+  width: clamp(160px, 34vw, 230px);
+  transform-origin: 50% 100%;
+  animation: morph-pop 200ms cubic-bezier(0.2, 0.9, 0.3, 1.2) 20ms both;
+}
+
+@keyframes morph-pop {
+  0% {
+    transform: translate3d(0, 8px, 0) scale(0.7);
+  }
+  60% {
+    transform: translate3d(0, 0, 0) scale(1.05);
+  }
+  100% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+}
+
+.morph__signAnchor {
+  position: absolute;
+  bottom: 72%;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.morph__sign {
+  padding: 7px 18px 6px;
+  border: 2px solid var(--color-ink);
+  border-radius: 12px;
+  background-color: var(--color-main);
+  box-shadow: 0 5px 0 rgba(74, 59, 59, 0.14);
+  color: var(--color-ink);
+  font-family: var(--font-heading);
+  font-size: clamp(1rem, 3.6vw, 1.2rem);
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  line-height: 1.3;
+  white-space: nowrap;
+  animation: morph-sign-in 170ms cubic-bezier(0.2, 0.9, 0.3, 1.25) 70ms both;
+}
+
+@keyframes morph-sign-in {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 10px, 0) rotate(-8deg) scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) rotate(0deg) scale(1);
+  }
+}
+
+/* reveal に入ったら小さくなって消える。看板は少しだけ残す */
+.morph[data-out='true'] .morph__chibi {
+  animation: morph-chibi-out 140ms cubic-bezier(0.6, 0, 0.8, 0.3) both;
+}
+
+@keyframes morph-chibi-out {
+  to {
+    opacity: 0;
+    transform: translate3d(0, 16px, 0) scale(0.2);
+  }
+}
+
+.morph[data-out='true'] .morph__sign {
+  animation: morph-sign-out 100ms ease-in 40ms both;
+}
+
+@keyframes morph-sign-out {
+  to {
+    opacity: 0;
+    transform: scale(0.7);
+  }
+}

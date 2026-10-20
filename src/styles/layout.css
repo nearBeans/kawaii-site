@@ -142,11 +142,15 @@
 }
 
 .page__title {
+  width: fit-content;
   font-family: var(--font-heading);
   font-size: clamp(1.55rem, 5.4vw, 1.95rem);
   font-weight: 700;
   line-height: 1.25;
   letter-spacing: 0.02em;
+  /* 看板と同じピンクを見出しにも（MOTION §5 看板と見出しのつなぎ） */
+  background-image: linear-gradient(transparent 66%, var(--color-main) 66%);
+  background-repeat: no-repeat;
 }
 
 .page__lead {

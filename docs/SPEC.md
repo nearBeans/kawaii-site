@@ -136,7 +136,7 @@
 ## 7. 技術（確定）
 
 - Vite + React + TypeScript
-- Motion（`motion` パッケージ）
+- Motion（`motion` パッケージ）。遷移レイヤー（帯・キャラ・看板）は CSS の transition / keyframes で実装し、Motion はページ内の小さな動きに使う
 - ルーティングは React Router。ただし遷移は TransitionProvider が横取りするので、ルート変更はその中だけで行う
 - CSS は素の CSS ＋ CSS 変数（Tailwind は使わない）
 - 画像は WebP / AVIF（アルファ対応）、表示サイズの2倍まで
@@ -184,7 +184,7 @@
 2. 足場づくり（`scripts` / `tsconfig` / `index.html` / `vite.config` / `_redirects` / CSS 変数）— **済**
 3. 静的な5画面（ワイプなし、仮データ、プレースホルダーキャラ）— **済**
 4. ワイプ遷移（A案・8度・0.7秒）と URL／履歴の同期 — **済**
-5. 中央のちびキャラ登場と看板
+5. 中央のちびキャラ登場と看板 — **済**
 6. お問い合わせポップアップ（Formspree）と外部リンク
 7. マイクロインタラクション（タブ、ボタン、連打、Web Audio の効果音）
 8. モバイル・低性能・reduced motion の調整

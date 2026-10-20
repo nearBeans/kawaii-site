@@ -7,10 +7,11 @@ import {
 import type { ReactNode } from 'react'
 import { useLocation, useNavigate } from 'react-router'
 import type { Location } from 'react-router'
-import { TRANSITION, directionTo } from './config'
+import { TRANSITION, directionTo, labelFor } from './config'
 import type { Direction, Phase } from './config'
 import { TransitionContext } from './context'
 import type { TransitionContextValue } from './context'
+import { TransitionCharacter } from './TransitionCharacter'
 import { usePrefersReducedMotion } from './usePrefersReducedMotion'
 import { Wipe } from './Wipe'
 
@@ -35,6 +36,7 @@ export function TransitionProvider({ children }: TransitionProviderProps) {
   const [phase, setPhaseState] = useState<Phase>('idle')
   const phaseRef = useRef<Phase>('idle')
   const [direction, setDirection] = useState<Direction>('forward')
+  const [signLabel, setSignLabel] = useState(() => labelFor(routerLocation.pathname))
 
   const transitioning = useRef(false)
   const fastForward = useRef(false)
@@ -95,6 +97,7 @@ export function TransitionProvider({ children }: TransitionProviderProps) {
     fastForward.current = false
     cancelRequest.current = null
     setDirection(dir)
+    setSignLabel(labelFor(target.pathname))
     setPhase('cover')
 
     timers.current.push(
@@ -220,6 +223,7 @@ export function TransitionProvider({ children }: TransitionProviderProps) {
     <TransitionContext.Provider value={value}>
       {children}
       <Wipe phase={phase} direction={direction} onSkip={skip} />
+      <TransitionCharacter phase={phase} label={signLabel} />
     </TransitionContext.Provider>
   )
 }

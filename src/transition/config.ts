@@ -1,3 +1,5 @@
+import { TABS } from '../content/site'
+
 /** 遷移の基準値（docs/MOTION.md §8）。 */
 export const TRANSITION = {
   angle: 8,
@@ -22,4 +24,9 @@ export function directionTo(from: string, to: string): Direction {
   const toIndex = ORDER.indexOf(to as (typeof ORDER)[number])
   if (fromIndex === -1 || toIndex === -1) return 'forward'
   return toIndex > fromIndex ? 'forward' : 'backward'
+}
+
+/** 看板に出すページ名。未知のパスはホーム扱い。 */
+export function labelFor(path: string): string {
+  return TABS.find((tab) => tab.path === path)?.label ?? 'ホーム'
 }
