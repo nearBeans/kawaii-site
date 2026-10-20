@@ -1,0 +1,37 @@
+/*
+ * デザイントークン
+ * 色・形・文字はここに集約する。コンポーネント側で色を直書きしない。
+ * 配色: いちごミルク（SPEC §3 で確定）
+ */
+:root {
+  /* 色 */
+  --color-base: #fff7f2;
+  --color-main: #ffb3c7;
+  --color-sub: #b8e6d9;
+  --color-accent: #ff8fa3;
+
+  --color-ink: #4a3b3b;
+  --color-ink-weak: #8a7676;
+  --color-surface: #ffffff;
+  --color-line: #4a3b3b;
+
+  /* 形 */
+  --radius-sm: 12px;
+  --radius-md: 24px;
+  --radius-lg: 32px;
+
+  --line-width: 2px;
+  --shadow-drop: 0 6px 0 rgba(74, 59, 59, 0.12);
+
+  /* 文字（フォントは未定。確定したらここだけ差し替える） */
+  --font-heading:
+    "Zen Maru Gothic", "M PLUS Rounded 1c", "Hiragino Maru Gothic ProN",
+    "Yu Gothic", system-ui, sans-serif;
+  --font-body:
+    "Zen Maru Gothic", "M PLUS Rounded 1c", "Hiragino Kaku Gothic ProN",
+    "Yu Gothic", system-ui, sans-serif;
+  --font-accent: "DotGothic16", var(--font-heading);
+
+  /* レイアウト */
+  --shell-width: 520px;
+}
