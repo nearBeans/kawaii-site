@@ -7,9 +7,20 @@ import { Connect } from './pages/Connect'
 import { Home } from './pages/Home'
 import { Likes } from './pages/Likes'
 import { Works } from './pages/Works'
+import { TransitionProvider } from './transition/TransitionProvider'
+import { useTransition } from './transition/useTransition'
 
 export default function App() {
-  usePageFocus()
+  return (
+    <TransitionProvider>
+      <AppFrame />
+    </TransitionProvider>
+  )
+}
+
+function AppFrame() {
+  const { location } = useTransition()
+  usePageFocus(location.pathname)
 
   return (
     <div className="app">
@@ -17,8 +28,8 @@ export default function App() {
         本文へ
       </a>
       <Background />
-      <main className="app__main" id="main">
-        <Routes>
+      <main className="app__main" id="main" key={location.pathname}>
+        <Routes location={location}>
           <Route path="/" element={<Home />} />
           <Route path="/about" element={<About />} />
           <Route path="/works" element={<Works />} />

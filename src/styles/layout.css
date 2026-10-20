@@ -224,6 +224,22 @@
   opacity: 1;
 }
 
+/* reduced motion ではワイプを出さず、120ms のフェードだけ（SPEC §8） */
+@media (prefers-reduced-motion: reduce) {
+  .app__main {
+    animation: page-fade 120ms ease-out;
+  }
+}
+
+@keyframes page-fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
 /* 背の低い画面では詰める */
 @media (max-height: 660px) {
   .page {

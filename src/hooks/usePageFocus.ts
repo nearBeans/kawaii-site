@@ -1,12 +1,10 @@
 import { useEffect, useRef } from 'react'
-import { useLocation } from 'react-router'
 
 /**
  * 遷移後に新しい見出しへフォーカスを移す（SPEC §8）。
- * 初回表示では動かさない。ワイプ遷移を入れたら TransitionProvider 側へ移す。
+ * 初回表示では動かさない。ワイプの cover 完了で呼ばれる。
  */
-export function usePageFocus() {
-  const { pathname } = useLocation()
+export function usePageFocus(pathname: string) {
   const lastPath = useRef(pathname)
 
   useEffect(() => {

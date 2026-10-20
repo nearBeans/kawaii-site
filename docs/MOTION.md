@@ -59,6 +59,7 @@ ease: ['easeOut', 'linear', 'easeIn'],
   - 右から左へ: `skewX(-8deg)`
   - 左から右へ: `skewX(8deg)`
 - 最後の帯だけ、同系色の細いストライプを薄く敷く。止まったときに「ストライプの画面」に見える。
+- 抜けるときは逆順（3本目から先に抜ける）にズラす。1本あたり 160ms + 30ms ズレで、reveal 全体は 220ms。
 - 帯は画面幅 130〜140%。`inset` を広げて、傾きで隙間が出ないようにする。
 
 ### 方向
@@ -115,7 +116,8 @@ idle → cover → hold → reveal → idle
 - **cover 完了**（画面が完全に覆われた瞬間）に、コンテンツの差し替えと `history.pushState` を同時に行う。見た目と URL がずれない。
 - 同じパスへの遷移は push しない。
 - `popstate`（戻る／進む）は push せず、方向に応じたワイプで表示を合わせる。
-- 遷移中に `popstate` が来たら、進行中の遷移を最後まで走らせてから、最新の `popstate` の位置へ逆方向ワイプ。連続で来たときは最後の1つだけ使う。
+- **cover 中**（まだ push していない）に `popstate` が来たら、その遷移は取りやめる。push せず、表示だけを `popstate` の位置に合わせる。
+- **push 後**（hold / reveal）に `popstate` が来たら、今の遷移を最後まで走らせてから、最新の位置へ逆方向ワイプ。連続で来たときは最後の1つだけ使う。
 - 方向はタブの並び順（ホーム 0 … つながる 4）の差分で決める。戻る／進むも同じ規則。
 - 直リンク・リロードはワイプなしで即表示。
 - 未知のパスは `/` に `replaceState`。
@@ -169,13 +171,16 @@ export const TRANSITION = {
   angle: 8,
   stagger: 30,
   cover: 200, // 帯1本の長さ。3本目が終わるのは cover + stagger * 2 = 260ms
+  coverTotal: 260,
   hold: 240,
-  reveal: 220, // 3本そろって抜けきるまで
+  holdFast: 120, // 早送り時
+  reveal: 160, // 帯1本の長さ。抜ける順は逆
+  revealTotal: 220, // reveal + stagger * 2
   characterIn: 280,
   signIn: 330,
   characterOut: 480,
   revealStart: 500,
-  total: 720, // cover(260) + hold(240) + reveal(220)
+  total: 720, // coverTotal(260) + hold(240) + revealTotal(220)
 } as const;
 ```
 
