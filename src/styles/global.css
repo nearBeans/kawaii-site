@@ -1,6 +1,7 @@
 @import "./tokens.css";
 @import "./layout.css";
 @import "./components.css";
+@import "./hero.css";
 @import "./transition.css";
 
 *,
@@ -9,16 +10,24 @@
   box-sizing: border-box;
 }
 
-html,
-body {
-  height: 100%;
-  margin: 0;
-  /* 1画面完結。スクロールしない（SPEC §2） */
+html {
+  min-height: 100%;
+  scrollbar-gutter: stable;
+}
+
+/* 遷移中はスクロールを止める（MOTION §6） */
+html.is-transitioning {
   overflow: hidden;
 }
 
+html,
 body {
-  background-color: var(--color-base);
+  margin: 0;
+}
+
+body {
+  min-height: 100dvh;
+  background-color: var(--color-crust);
   color: var(--color-ink);
   font-family: var(--font-body);
   line-height: 1.7;
@@ -27,7 +36,7 @@ body {
 }
 
 #root {
-  height: 100%;
+  min-height: 100dvh;
 }
 
 h1,
@@ -51,6 +60,11 @@ img {
   display: block;
   max-width: 100%;
   height: auto;
+}
+
+::selection {
+  background: var(--color-main);
+  color: var(--color-ink);
 }
 
 :focus-visible {

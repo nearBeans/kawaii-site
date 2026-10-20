@@ -16,6 +16,7 @@ export function Works() {
           </li>
         ))}
       </ul>
+      <p className="page__note">つくりかけのものも、ここに増やしていきます。</p>
     </Page>
   )
 }

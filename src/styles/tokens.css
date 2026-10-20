@@ -6,7 +6,9 @@
 :root {
   /* 色 */
   --color-base: #fff7f2;
+  --color-crust: #efd3ce;
   --color-main: #ffb3c7;
+  --color-main-soft: #ffd9e3;
   --color-sub: #b8e6d9;
   --color-accent: #ff8fa3;
 
@@ -23,15 +25,26 @@
   --line-width: 2px;
   --shadow-drop: 0 6px 0 rgba(74, 59, 59, 0.12);
 
-  /* 文字（フォントは未定。確定したらここだけ差し替える） */
+  /* 枠（SPEC §2.1） */
+  --frame-gutter: 8px;
+  --frame-radius: 24px;
+  --frame-top: max(var(--frame-gutter), env(safe-area-inset-top));
+  --frame-right: max(var(--frame-gutter), env(safe-area-inset-right));
+  --frame-bottom: max(var(--frame-gutter), env(safe-area-inset-bottom));
+  --frame-left: max(var(--frame-gutter), env(safe-area-inset-left));
+
+  /* 文字（SPEC §3） */
+  --font-display:
+    "Dela Gothic One", "Zen Maru Gothic", "Hiragino Maru Gothic ProN",
+    "Yu Gothic", system-ui, sans-serif;
   --font-heading:
-    "Zen Maru Gothic", "M PLUS Rounded 1c", "Hiragino Maru Gothic ProN",
-    "Yu Gothic", system-ui, sans-serif;
+    "Zen Maru Gothic", "Hiragino Maru Gothic ProN", "Yu Gothic", system-ui,
+    sans-serif;
   --font-body:
-    "Zen Maru Gothic", "M PLUS Rounded 1c", "Hiragino Kaku Gothic ProN",
-    "Yu Gothic", system-ui, sans-serif;
+    "Zen Maru Gothic", "Hiragino Kaku Gothic ProN", "Yu Gothic", system-ui,
+    sans-serif;
   --font-accent: "DotGothic16", var(--font-heading);
 
   /* レイアウト */
-  --shell-width: 520px;
+  --shell-width: 1120px;
 }

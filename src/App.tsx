@@ -1,6 +1,6 @@
 import { Navigate, Route, Routes } from 'react-router'
 import { Background } from './components/Background'
-import { TabBar } from './components/TabBar'
+import { SiteHeader } from './components/SiteHeader'
 import { usePageFocus } from './hooks/usePageFocus'
 import { About } from './pages/About'
 import { Connect } from './pages/Connect'
@@ -28,6 +28,7 @@ function AppFrame() {
         本文へ
       </a>
       <Background />
+      <SiteHeader />
       <main className="app__main" id="main" key={location.pathname}>
         <Routes location={location}>
           <Route path="/" element={<Home />} />
@@ -38,7 +39,10 @@ function AppFrame() {
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </main>
-      <TabBar />
+      <footer className="site-footer">
+        <p>© 2026 mofh</p>
+        <p>made with a chibi</p>
+      </footer>
     </div>
   )
 }

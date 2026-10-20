@@ -32,12 +32,22 @@ export const PROFILE = {
 } as const
 
 export const HOME = {
+  wordmark: 'mofh',
+  role: 'student / maker',
+  lead: 'ちいさなものをつくっています。ちびキャラと一緒に、ふわふわした場所を。',
+  noteLink: 'note を読む',
   note: 'いまは、このサイトを組み立てているところ。',
   blog: {
     label: '最新のブログ',
     text: 'note に近況を書きました',
     href: 'https://note.com/eating_mame',
   },
+} as const
+
+export const GREETINGS = {
+  morning: 'おはよう',
+  afternoon: 'こんにちは',
+  evening: 'こんばんは',
 } as const
 
 export type Work = {
@@ -67,15 +77,40 @@ export const WORKS: readonly Work[] = [
 export type Like = {
   readonly mark: string
   readonly label: string
+  readonly description: string
 }
 
 export const LIKES: readonly Like[] = [
-  { mark: '🐈', label: 'テト' },
-  { mark: '🎬', label: 'アニメ（百合）' },
-  { mark: '⛰️', label: '山梨・長野' },
-  { mark: '🗻', label: '富士山' },
-  { mark: '🎧', label: '音楽' },
-  { mark: '🕶️', label: 'VRChat' },
+  {
+    mark: '🐈',
+    label: 'テト',
+    description: 'いっしょに暮らしている猫。',
+  },
+  {
+    mark: '🎬',
+    label: 'アニメ（百合）',
+    description: 'すきなジャンル。視聴メモは Airtable。',
+  },
+  {
+    mark: '⛰️',
+    label: '山梨・長野',
+    description: '自然のなかへ出かけるのがすき。',
+  },
+  {
+    mark: '🗻',
+    label: '富士山',
+    description: 'まわりを歩くのがすき。',
+  },
+  {
+    mark: '🎧',
+    label: '音楽',
+    description: '作業のおともに。',
+  },
+  {
+    mark: '🕶️',
+    label: 'VRChat',
+    description: 'アバターで過ごす時間。',
+  },
 ]
 
 export type Link = {

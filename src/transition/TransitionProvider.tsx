@@ -90,6 +90,7 @@ export function TransitionProvider({ children }: TransitionProviderProps) {
     if (reduced) {
       setLocation(target)
       if (push) routerNavigate(target.pathname)
+      window.scrollTo(0, 0)
       return
     }
 
@@ -116,6 +117,8 @@ export function TransitionProvider({ children }: TransitionProviderProps) {
           setLocation(target)
         }
 
+        // スクロールする構成なので、差し替え時に先頭へ（MOTION §6）
+        window.scrollTo(0, 0)
         setPhase('hold')
 
         holdTimer.current = window.setTimeout(
@@ -179,6 +182,7 @@ export function TransitionProvider({ children }: TransitionProviderProps) {
 
     if (reduced) {
       setLocation(routerLocation)
+      window.scrollTo(0, 0)
       return
     }
 
@@ -189,6 +193,19 @@ export function TransitionProvider({ children }: TransitionProviderProps) {
       false,
     )
   }, [routerLocation, reduced])
+
+  // cover / hold の間はスクロールを止める（MOTION §6）
+  useEffect(() => {
+    const root = document.documentElement
+
+    if (phase === 'idle') {
+      root.classList.remove('is-transitioning')
+      return
+    }
+
+    root.classList.add('is-transitioning')
+    return () => root.classList.remove('is-transitioning')
+  }, [phase])
 
   useEffect(() => {
     if (phase === 'idle') return
