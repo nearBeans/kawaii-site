@@ -1,6 +1,6 @@
 /*
  * ワイプ遷移（docs/MOTION.md）。
- * 3枚の帯を 30ms ずつズラして重ねる。8度傾け、進行方向で反転する。
+ * 3枚の帯を stagger ずつズラして重ねる。8度傾け、進行方向で反転する。
  */
 
 .wipe {
@@ -40,45 +40,49 @@
 /* 進行方向で反転（MOTION §4） */
 .wipe[data-direction='forward'] .wipe__band {
   border-left: var(--edge) solid #fff;
-  transform: translate3d(112%, 0, 0) skewX(-8deg);
+  transform: translate3d(112%, 0, 0) skewX(calc(-1 * var(--wipe-angle)));
 }
 
 .wipe[data-direction='backward'] .wipe__band {
   border-right: var(--edge) solid #fff;
-  transform: translate3d(-112%, 0, 0) skewX(8deg);
+  transform: translate3d(-112%, 0, 0) skewX(var(--wipe-angle));
 }
 
 /* cover: 速く入って減速 */
 .wipe[data-phase='cover'][data-direction='forward'] .wipe__band {
-  transform: translate3d(0, 0, 0) skewX(-8deg);
-  transition: transform 200ms cubic-bezier(0.22, 1, 0.36, 1) var(--in-delay);
+  transform: translate3d(0, 0, 0) skewX(calc(-1 * var(--wipe-angle)));
+  transition: transform var(--wipe-cover) cubic-bezier(0.22, 1, 0.36, 1)
+    var(--in-delay);
 }
 
 .wipe[data-phase='cover'][data-direction='backward'] .wipe__band {
-  transform: translate3d(0, 0, 0) skewX(8deg);
-  transition: transform 200ms cubic-bezier(0.22, 1, 0.36, 1) var(--in-delay);
+  transform: translate3d(0, 0, 0) skewX(var(--wipe-angle));
+  transition: transform var(--wipe-cover) cubic-bezier(0.22, 1, 0.36, 1)
+    var(--in-delay);
 }
 
 /* hold: 全面が覆われたまま止める */
 .wipe[data-phase='hold'][data-direction='forward'] .wipe__band {
-  transform: translate3d(0, 0, 0) skewX(-8deg);
+  transform: translate3d(0, 0, 0) skewX(calc(-1 * var(--wipe-angle)));
   transition: none;
 }
 
 .wipe[data-phase='hold'][data-direction='backward'] .wipe__band {
-  transform: translate3d(0, 0, 0) skewX(8deg);
+  transform: translate3d(0, 0, 0) skewX(var(--wipe-angle));
   transition: none;
 }
 
 /* reveal: ゆっくり動き出して加速。抜ける順は逆にズラす */
 .wipe[data-phase='reveal'][data-direction='forward'] .wipe__band {
-  transform: translate3d(-112%, 0, 0) skewX(-8deg);
-  transition: transform 160ms cubic-bezier(0.64, 0, 0.78, 0) var(--out-delay);
+  transform: translate3d(-112%, 0, 0) skewX(calc(-1 * var(--wipe-angle)));
+  transition: transform var(--wipe-reveal) cubic-bezier(0.64, 0, 0.78, 0)
+    var(--out-delay);
 }
 
 .wipe[data-phase='reveal'][data-direction='backward'] .wipe__band {
-  transform: translate3d(112%, 0, 0) skewX(8deg);
-  transition: transform 160ms cubic-bezier(0.64, 0, 0.78, 0) var(--out-delay);
+  transform: translate3d(112%, 0, 0) skewX(var(--wipe-angle));
+  transition: transform var(--wipe-reveal) cubic-bezier(0.64, 0, 0.78, 0)
+    var(--out-delay);
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -111,7 +115,7 @@
 .morph__chibi {
   width: clamp(160px, 34vw, 230px);
   transform-origin: 50% 100%;
-  animation: morph-pop 200ms cubic-bezier(0.2, 0.9, 0.3, 1.2) 20ms both;
+  animation: morph-pop 240ms cubic-bezier(0.2, 0.9, 0.3, 1.2) 20ms both;
 }
 
 @keyframes morph-pop {
@@ -146,7 +150,7 @@
   letter-spacing: 0.04em;
   line-height: 1.3;
   white-space: nowrap;
-  animation: morph-sign-in 170ms cubic-bezier(0.2, 0.9, 0.3, 1.25) 70ms both;
+  animation: morph-sign-in 200ms cubic-bezier(0.2, 0.9, 0.3, 1.25) 80ms both;
 }
 
 @keyframes morph-sign-in {
@@ -162,7 +166,7 @@
 
 /* reveal に入ったら小さくなって消える。看板は少しだけ残す */
 .morph[data-out='true'] .morph__chibi {
-  animation: morph-chibi-out 140ms cubic-bezier(0.6, 0, 0.8, 0.3) both;
+  animation: morph-chibi-out 160ms cubic-bezier(0.6, 0, 0.8, 0.3) both;
 }
 
 @keyframes morph-chibi-out {
@@ -173,7 +177,7 @@
 }
 
 .morph[data-out='true'] .morph__sign {
-  animation: morph-sign-out 100ms ease-in 40ms both;
+  animation: morph-sign-out 120ms ease-in 50ms both;
 }
 
 @keyframes morph-sign-out {

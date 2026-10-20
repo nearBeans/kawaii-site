@@ -13,21 +13,21 @@
 
 ## 2. タイムライン
 
-合計 0.7秒。値は初期案で、実機で調整する。
+合計 0.96秒。値は初期案で、実機で調整する。
 
 | 時間 | フェーズ | 出来事 |
 | --- | --- | --- |
-| 0–260ms | cover | 3本の帯が入る。30ms ずつズラす |
-| 260–500ms | hold | 全面が覆われる。中央にキャラ |
-| 280ms | hold | キャラが中央にポンと出る（0.7→1.05→1.0） |
-| 330ms | hold | 看板が -8度→0度で出る |
-| 330–480ms | hold | 看板を掲げてまばたき1〜2回 |
-| 480ms | hold | キャラがしゃがんで中央に吸い込まれる |
-| 500–720ms | reveal | 帯が抜けて新ページが見える |
-| 520ms | reveal | 看板と同じピンクを見出しに引き継ぐ（位置のモーフは v2） |
-| 720ms | idle | 完了。フォーカスを新見出しへ |
+| 0–340ms | cover | 3本の帯が入る。40ms ずつズラす |
+| 340–660ms | hold | 全面が覆われる。中央にキャラ |
+| 360ms | hold | キャラが中央にポンと出る（0.7→1.05→1.0、240ms） |
+| 420ms | hold | 看板が -8度→0度で出る（200ms） |
+| 420–620ms | hold | 看板を掲げてまばたき1回 |
+| 660ms | hold | キャラがしゃがんで中央に吸い込まれる |
+| 660–960ms | reveal | 帯が抜けて新ページが見える |
+| 680ms | reveal | 看板と同じピンクを見出しに引き継ぐ（位置のモーフは v2） |
+| 960ms | idle | 完了。フォーカスを新見出しへ |
 
-- 帯の stagger は 30ms。3本目が終わるのが 260ms。
+- 帯の stagger は 40ms。3本目が終わるのが 340ms。
 - 「ため」は最短 120ms まで短縮可。初回や連続遷移で調整する。
 
 ## 3. イージング
@@ -40,7 +40,7 @@
 | キャラ登場 | spring `{ stiffness: 300, damping: 20 }` | ぽん、と跳ねる |
 | 看板 | spring `{ stiffness: 260, damping: 18 }` | 少しだけ overshoot |
 
-実装は **CSS の `transition` / `@keyframes`**。帯は `transform` の transition、キャラは 200ms の keyframes（0.7 → 1.05 → 1.0）、看板は 170ms の少し overshoot する easing。遷移レイヤーはこれで十分で、バンドルも増えない。Motion はページ内の小さな動き（ホバーなど）に残す。
+実装は **CSS の `transition` / `@keyframes`**。帯は `transform` の transition、キャラは 240ms の keyframes（0.7 → 1.05 → 1.0）、看板は 200ms の少し overshoot する easing。遷移レイヤーはこれで十分で、バンドルも増えない。Motion はページ内の小さな動き（ホバーなど）に残す。
 
 ## 4. ワイプの形
 
@@ -51,7 +51,7 @@
   - 右から左へ: `skewX(-8deg)`
   - 左から右へ: `skewX(8deg)`
 - 最後の帯だけ、同系色の細いストライプを薄く敷く。止まったときに「ストライプの画面」に見える。
-- 抜けるときは逆順（3本目から先に抜ける）にズラす。1本あたり 160ms + 30ms ズレで、reveal 全体は 220ms。
+- 抜けるときは逆順（3本目から先に抜ける）にズラす。1本あたり 220ms + 40ms ズレで、reveal 全体は 300ms。
 - 帯は画面幅 130〜140%。`inset` を広げて、傾きで隙間が出ないようにする。
 
 ### 方向
@@ -161,18 +161,18 @@ BGM は無し。**効果音のみ**。初期オフ。
 ```ts
 export const TRANSITION = {
   angle: 8,
-  stagger: 30,
-  cover: 200, // 帯1本の長さ。3本目が終わるのは cover + stagger * 2 = 260ms
-  coverTotal: 260,
-  hold: 240,
-  holdFast: 120, // 早送り時
-  reveal: 160, // 帯1本の長さ。抜ける順は逆
-  revealTotal: 220, // reveal + stagger * 2
-  characterIn: 280,
-  signIn: 330,
-  characterOut: 480,
-  revealStart: 500,
-  total: 720, // coverTotal(260) + hold(240) + revealTotal(220)
+  stagger: 40,
+  cover: 260, // 帯1本の長さ。3本目が終わるのは cover + stagger * 2 = 340ms
+  coverTotal: 340,
+  hold: 320,
+  holdFast: 140, // 早送り時
+  reveal: 220, // 帯1本の長さ。抜ける順は逆
+  revealTotal: 300, // reveal + stagger * 2
+  characterIn: 360,
+  signIn: 420,
+  characterOut: 660,
+  revealStart: 660,
+  total: 960, // coverTotal(340) + hold(320) + revealTotal(300)
 } as const;
 ```
 

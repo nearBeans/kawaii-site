@@ -3,14 +3,14 @@ import { TABS } from '../content/site'
 /** 遷移の基準値（docs/MOTION.md §8）。 */
 export const TRANSITION = {
   angle: 8,
-  stagger: 30,
-  cover: 200, // 帯1本の長さ
-  coverTotal: 260, // cover + stagger * 2
-  hold: 240,
-  holdFast: 120, // 早送り時
-  reveal: 160, // 帯1本の長さ
-  revealTotal: 220, // reveal + stagger * 2
-  total: 720,
+  stagger: 40,
+  cover: 260, // 帯1本の長さ
+  coverTotal: 340, // cover + stagger * 2
+  hold: 320,
+  holdFast: 140, // 早送り時
+  reveal: 220, // 帯1本の長さ
+  revealTotal: 300, // reveal + stagger * 2
+  total: 960,
 } as const
 
 export type Phase = 'idle' | 'cover' | 'hold' | 'reveal'
